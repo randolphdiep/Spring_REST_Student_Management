@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Register Form</title>
+<link rel="stylesheet" type="text/css" th:href="@{CSS/bootstrap.css}">
+<link rel="icon" th:href="@{Images/smalllogo.png}">
+<link rel="stylesheet" type="text/css" th:href="@{CSS/form.css}">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<img th:src="@{Images/logo.png}" id="logo" class="mx-auto d-block"
+		alt="Logo">
+	<div class="signup-form">
+		<form th:action="@{/register/save}" th:object="${newAccount}"
+			method="POST">
+			<h2>REGISTER</h2>
+			<div class="form-group">
+				<div th:if="${param.error}" class="alert alert-error">
+					<small class="form-inline justify-content-center">Username
+						already used !</small>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span> <input
+						type="text" class="form-control" name="username"
+						placeholder="Username" maxlength="20"
+						pattern="[a-zA-Z0-9!@#$&()\\-`.+,/]*" required="required"
+						th:field="${newAccount.userName}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock"></i></span> <input
+						id="password" type="password" class="form-control" name="password"
+						placeholder="Password" maxlength="15" minlength="6"
+						pattern="[a-zA-Z0-9!@#$&()\\-`.+,/]*" required="required"
+						th:field="${newAccount.password}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock"></i></span> <input
+						id="passwordConfirm" type="password" class="form-control"
+						name="passwordConfirm" placeholder="Password Confirm"
+						maxlength="15" minlength="6" pattern="[a-zA-Z0-9!@#$&()\\-`.+,/]*"
+						required="required">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<button onclick="document.location='/login'" type="button"
+							class="btn btn-primary btn-block btn-lg">Back</button>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+<script>
+	var password = document.getElementById("password"), confirm_password = document
+			.getElementById("passwordConfirm");
+
+	function validatePassword() {
+		if (password.value != confirm_password.value) {
+			confirm_password.setCustomValidity("Passwords Don't Match");
+		} else {
+			confirm_password.setCustomValidity('');
+		}
+	}
+
+	password.onchange = validatePassword;
+	confirm_password.onkeyup = validatePassword;
+</script>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Student List</title>
+<link rel="stylesheet" type="text/css" th:href="@{CSS/bootstrap.css}">
+<link rel="icon" th:href="@{Images/smalllogo.png}">
+<link rel="stylesheet" type="text/css" th:href="@{CSS/form.css}">
+<link rel="stylesheet" type="text/css" th:href="@{CSS/bootstrapmin.css}">
+</head>
+<body style="background-color: #fff !important">
+	<nav
+		style="box-shadow: 0px 0px 10px -4px grey; background-color: #fff !important"
+		class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="row align-items-center ">
+			<div class="col-lg-1">
+				<a class="navbar-brand" href="#"> <img
+					th:src="@{Images/logo.png}" id="logoMenu" class="hello" alt="Logo"></a>
+			</div>
+			<div class="col-lg-11 ">
+				<div class="row align-items-center float-right">
+					<h5 class="welcome">Welcome,
+						[[${#request.userPrincipal.principal.username}]]</h5>
+					<h5>
+						<form th:action="@{/logout}" method="post">
+							<a class="logoutLink" onclick="logoutConfirm(this)">Logout</a>
+						</form>
+					</h5>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container search">
+		<form th:action="@{/searchByField}" method="GET">
+			<div class="form-group row">
+				<label for="studentCode" class="col-sm-4 col-form-label">Student
+					Code:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="code" maxlength="10">
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<div class="form-group row">
+				<label for="studentName" class="col-sm-4 col-form-label">Student
+					Name:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" id="studentName"
+						name="name" maxlength="20">
+				</div>
+				<div class="col-sm-2">
+					<button onclick="document.location='/add'" type="button"
+						class="btn btn-primary mb-2">Add Student</button>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="birthday" class="col-sm-4 col-form-label">Birthday:</label>
+				<div class="col-sm-6">
+					<input type="date" class="form-control" id="birthday"
+						name="birthday" maxlength="10">
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-primary mb-2">Search</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<div class="container">
+
+		<div class="row">
+			<div class="col-lg-12">
+				<table id="example" class="table">
+					<thead>
+						<tr>
+							<th scope="col">Code</th>
+							<th scope="col">Name</th>
+							<th scope="col">Birthday</th>
+							<th scope="col">Address</th>
+							<th scope="col">Score</th>
+							<th scope="col">Edit</th>
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr th:each="student: ${students}">
+							<td th:text="${student.studentCode}" />
+							<td th:text="${student.studentName}" />
+							<td th:text="${student.dateOfBirth}" />
+							<td th:text="${student.address}" />
+							<td th:text="${student.averageScore}" />
+							<td>
+								<div class="row">
+									<form id="edit" th:action="@{/edit}" method="GET">
+										<a class="editLink"
+											onclick="this.closest('form').submit();return false;">
+											Edit</a> <input type="hidden" th:value="${student.id}"
+											name="editStudentId">
+									</form>
+									&#160;-&#160;
+									<form th:action="@{/delete}" method="GET">
+										<a class="deleteLink" onclick="deleteConfirm(this)">
+											Delete</a> <input type="hidden" th:value="${student.id}"
+											name="deleteStudentId">
+									</form>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+<script th:src="@{JS/jquery-3.5.1.js}"></script>
+<script th:src="@{JS/jquery.dataTables.min.js}"></script>
+<script th:src="@{JS/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{JS/screenlist.js}"></script>
+

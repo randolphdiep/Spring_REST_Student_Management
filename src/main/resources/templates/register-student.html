@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Student List</title>
+<link rel="stylesheet" type="text/css" th:href="@{CSS/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{CSS/form.css}">
+<link rel="stylesheet" type="text/css" th:href="@{CSS/bootstrapmin.css}">
+<link rel="icon" th:href="@{Images/smalllogo.png}">
+</head>
+<body style="background-color: #fff !important">
+	<nav
+		style="box-shadow: 0px 0px 10px -4px grey; background-color: #fff !important"
+		class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="row align-items-center ">
+			<div class="col-lg-1">
+				<a class="navbar-brand" href="#"> <img
+					th:src="@{Images/logo.png}" id="logoMenu" class="hello" alt="Logo"></a>
+			</div>
+			<div class="col-lg-11 ">
+				<div class="row align-items-center float-right">
+					<h5 th:unless="${param.add}" class="welcome">Welcome,
+						[[${#request.userPrincipal.principal.username}]]</h5>
+					<h5>
+						<form th:action="@{/logout}" method="post">
+							<a class="logoutLink" onclick="logoutEditConfirm(this)">Logout</a>
+						</form>
+					</h5>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container search">
+		<h3 class="text-center studenttt">STUDENT</h3>
+		<form th:action="@{/saveStudent}" th:object="${editedStudent}"
+			method="GET">
+			<div th:unless="${param.add}" class="form-group row">
+				<label for="studentId" class="col-sm-4 col-form-label">Student
+					Id:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="${editedStudent.id}"
+						class="form-control" name="id" readonly="true">
+				</div>
+				<div class="col-sm-5"></div>
+			</div>
+			<div class="form-group row">
+				<label for="studentCode" class="col-sm-4 col-form-label">Student
+					Code:</label>
+				<div class="col-sm-6">
+					<input type="text" th:value="${editedStudent.code}"
+						class="form-control" id="studentCode" name="code"
+						required="required" maxlength="10" readonly="true">
+				</div>
+				<div class="col-sm-2">
+					<button th:if="${param.add}" onclick="generateCode()" type="button"
+						class="btn btn-primary mb-2">Generate Code</button>
+					<button th:unless="${param.add}" onclick="generateCode()"
+						type="button" class="btn btn-primary mb-2" disabled>Generate
+						Code</button>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="studentName" class="col-sm-4 col-form-label">Student
+					Name:</label>
+				<div class="col-sm-6">
+					<input type="text" th:value="${editedStudent.name}"
+						class="form-control" id="studentName" name="name"
+						required="required" maxlength="20">
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<div class="form-group row">
+				<label for="birthday" class="col-sm-4 col-form-label">Birthday:</label>
+				<div class="col-sm-6">
+					<input type="date" th:value="${editedStudent.birthday}"
+						class="form-control" id="birthday" name="birthday">
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<div class="form-group row">
+				<label for="studentAddress" class="col-sm-4 col-form-label">Address:</label>
+				<div class="col-sm-6">
+					<input type="text" th:value="${editedStudent.address}"
+						class="form-control" id="studentAddress" name="address"
+						maxlength="255">
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<div class="form-group row">
+				<label for="studentAverageScore" class="col-sm-4 col-form-label">Average
+					Score:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="${editedStudent.score}"
+						class="form-control" pattern="[0-9]+(\.[0-9]{1,2})"
+						id="studentAverageScore" name="score">
+				</div>
+				<div class="col-sm-5"></div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12"></div>
+			</div>
+			<div class="form-group row">
+				<div class="ml-auto mr-3">
+					<button onclick="document.location='/list'" type="button"
+						class="btn btn-primary mb-2">Back</button>
+				</div>
+				<div class="col-sm-6">
+					<button onclick="saveSubmit()" type="submit"
+						class="btn btn-primary mb-2">Save</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>
+<script th:src="@{JS/jquery-3.5.1.js}"></script>
+<script th:src="@{JS/jquery.dataTables.min.js}"></script>
+<script th:src="@{JS/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{JS/register-student.js}"></script>
